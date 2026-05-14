@@ -1,4 +1,4 @@
-## to-do-list
+## to-do list
 
 Šī ir programma priekš ikdienas uzdevumu organizēšanai. Lietotājs var pievienot jaunus
 uzdevumus, dzēst nevajadzīgos un atzīmēt izpildītos uzdevumus. 
