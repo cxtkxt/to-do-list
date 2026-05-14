@@ -91,3 +91,135 @@ window.configure(bg="#1f1b24")
 window.resizable(False, False)
 main_frame = tk.Frame(window, bg="#2b2430")
 main_frame.pack(padx=25, pady=25, fill="both", expand=True)
+
+title = tk.Label(
+    main_frame,
+    text="To-do list",
+    font=("lemon milk", 22, "bold"),
+    bg="#2b2430",
+    fg="#ffd6e8"
+)
+title.pack(pady=(25, 5))
+
+subtitle = tk.Label(
+    main_frame,
+    text="pieraksti darbus, termiņus un kategorijas",
+    font=("lemon milk", 10),
+    bg="#2b2430",
+    fg="#d8a7c4"
+)
+subtitle.pack(pady=(0, 20))
+
+task_entry = tk.Entry(
+    main_frame,
+    width=30,
+    font=("arial", 14),
+    bg="#3a313f",
+    fg="#fff5fb",
+    insertbackground="#ffd6e8",
+    relief="solid",
+    bd=1,
+    highlightthickness=2,
+    highlightbackground="#6d4c61",
+    highlightcolor="#f2a7c8"
+)
+task_entry.pack(ipady=10, pady=(0, 8))
+
+category_entry = tk.Entry(
+    main_frame,
+    width=30,
+    font=("arial", 12),
+    bg="#3a313f",
+    fg="#fff5fb",
+    insertbackground="#ffd6e8",
+    relief="solid",
+    bd=1,
+    highlightthickness=2,
+    highlightbackground="#6d4c61",
+    highlightcolor="#f2a7c8"
+)
+category_entry.pack(ipady=8, pady=(0, 8))
+
+date_entry = tk.Entry(
+    main_frame,
+    width=30,
+    font=("arial", 12),
+    bg="#3a313f",
+    fg="#fff5fb",
+    insertbackground="#ffd6e8",
+    relief="solid",
+    bd=1,
+    highlightthickness=2,
+    highlightbackground="#6d4c61",
+    highlightcolor="#f2a7c8"
+)
+date_entry.pack(ipady=8, pady=(0, 12))
+
+add_placeholder(task_entry, "Uzdevums")
+add_placeholder(category_entry, "Kategorija, piem. skola")
+add_placeholder(date_entry, "Termiņš, piem. 15.05")
+
+add_button = tk.Button(
+    main_frame,
+    text="+ Pievienot",
+    font=("arial", 12, "bold"),
+    bg="#f2a7c8",
+    fg="#1f1b24",
+    activebackground="#e58bb6",
+    activeforeground="#1f1b24",
+    relief="flat",
+    width=22,
+    command=add_task
+)
+add_button.pack(pady=8)
+
+task_list = tk.Listbox(
+    main_frame,
+    width=48,
+    height=12,
+    font=("Arial", 11),
+    bg="#3a313f",
+    fg="#fff5fb",
+    selectbackground="#6d4c61",
+    selectforeground="#fff5fb",
+    relief="solid",
+    bd=1,
+    highlightthickness=1,
+    highlightbackground="#6d4c61",
+    activestyle="none"
+)
+task_list.pack(pady=18)
+
+button_frame = tk.Frame(main_frame, bg="#2b2430")
+button_frame.pack(pady=8)
+
+done_button = tk.Button(
+    button_frame,
+    text="✓ Izpildīts",
+    font=("arial", 11, "bold"),
+    bg="#ffc2d8",
+    fg="#1f1b24",
+    activebackground="#f2a7c8",
+    activeforeground="#1f1b24",
+    relief="flat",
+    width=14,
+    command=mark_done
+)
+done_button.grid(row=0, column=0, padx=6)
+
+delete_button = tk.Button(
+    button_frame,
+    text="Dzēst",
+    font=("arial", 11, "bold"),
+    bg="#c77d98",
+    fg="white",
+    activebackground="#b46582",
+    activeforeground="white",
+    relief="flat",
+    width=14,
+    command=delete_task
+)
+delete_button.grid(row=0, column=1, padx=6)
+
+load_tasks()
+window.mainloop()
