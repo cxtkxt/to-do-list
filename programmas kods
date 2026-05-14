@@ -3,6 +3,25 @@ from tkinter import messagebox
 
 FILE_NAME = "uzdevumi.txt"
 
+def add_placeholder(entry, text):
+    entry.placeholder = text
+    entry.delete(0, tk.END)
+    entry.insert(0, text)
+    entry.config(fg="#d8a7c4")
+
+    def on_click(event):
+        if entry.get() == entry.placeholder:
+            entry.delete(0, tk.END)
+            entry.config(fg="#fff5fb")
+
+    def on_leave(event):
+        if entry.get().strip() == "":
+            entry.insert(0, entry.placeholder)
+            entry.config(fg="#d8a7c4")
+
+    entry.bind("<FocusIn>", on_click)
+    entry.bind("<FocusOut>", on_leave)
+
 def load_tasks():
     try:
         with open(FILE_NAME, "r", encoding="utf-8") as file:
@@ -19,12 +38,28 @@ def save_tasks():
 
 def add_task():
     task = task_entry.get().strip()
-
+    category = category_entry.get().strip()
+    date = date_entry.get().strip()
+    if task == "Uzdevums":
+        task = ""
+    if category == "Kategorija, piem. skola":
+        category = ""
+    if date == "Termiņš, piem. 15.05":
+        date = ""
     if task == "":
         messagebox.showwarning("Kļūda", "Lūdzu ievadi uzdevumu!")
+
     else:
-        task_list.insert(tk.END, task)
-        task_entry.delete(0, tk.END)
+        if category == "":
+            category = "Bez kategorijas"
+        if date == "":
+            date = "nav termiņa"
+        full_task = f"[{category}] {task} | līdz: {date}"
+        task_list.insert(tk.END, full_task)
+        add_placeholder(task_entry, "Uzdevums")
+        add_placeholder(category_entry, "Kategorija, piem. skola")
+        add_placeholder(date_entry, "Termiņš, piem. 15.05")
+
         save_tasks()
 
 def delete_task():
@@ -32,6 +67,7 @@ def delete_task():
         selected_task = task_list.curselection()[0]
         task_list.delete(selected_task)
         save_tasks()
+
     except IndexError:
         messagebox.showwarning("Kļūda", "Vispirms izvēlies uzdevumu!")
 
@@ -39,20 +75,19 @@ def mark_done():
     try:
         selected_task = task_list.curselection()[0]
         text = task_list.get(selected_task)
-
         if not text.startswith("✓ "):
             task_list.delete(selected_task)
             task_list.insert(selected_task, "✓ " + text.upper())
             task_list.selection_clear(0, tk.END)
             save_tasks()
+
     except IndexError:
         messagebox.showwarning("Kļūda", "Vispirms izvēlies uzdevumu!")
 
 window = tk.Tk()
 window.title("To-Do List")
-window.geometry("600x700")
+window.geometry("600x760")
 window.configure(bg="#1f1b24")
 window.resizable(False, False)
-
 main_frame = tk.Frame(window, bg="#2b2430")
 main_frame.pack(padx=25, pady=25, fill="both", expand=True)
